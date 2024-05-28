@@ -1,28 +1,34 @@
 package main.java.com.example.database;
 
-import main.java.com.example.database.models.Student;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.DriverManager;
+import main.java.com.example.database.models.Student;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:postgresql://localhost:5432/mydatabase";
-    private static final String USER = "myuser";
-    private static final String PASSWORD = "mypassword";
     private Connection connection;
 
-    public DatabaseManager() {
+    public static Connection getConnection() {
+        String url = "jdbc:postgresql://localhost:5432/school";
+        String user = "alvarero";
+        String password = "12";
+
         try {
-            this.connection = getConnection();
+            return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    // We get the conn
+    public void connect() {
+        connection = getConnection();
+        if (connection == null) {
+            System.err.println("No se puede establecer una conexión con la base de datos");
+        }
     }
 
     // In case we need to disconnect
@@ -38,11 +44,13 @@ public class DatabaseManager {
 
     // We gotta start the CRUD with the Create ofc
     public void addStudent(Student student) {
+
         // Store the query on a String
         String query = "INSERT INTO students (id, name, lastName) VALUES (?, ?, ?)";
 
         // Use a Try-Catch to handle errors in case something goes wrong with the query
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
             // We add the values using the prepared statement
             stmt.setInt(1, student.getId());
             stmt.setString(2, student.getName());
@@ -51,6 +59,7 @@ public class DatabaseManager {
             // Then execute the query
             stmt.executeUpdate();
         } catch (SQLException e) {
+
             // Catch the excepcion if needed
             e.printStackTrace();
         }
@@ -58,11 +67,13 @@ public class DatabaseManager {
 
     // Then we do the R, R stands for Read
     public Student getStudent(int id) {
+
         // Same as before we create the query
         String query = "SELECT * FROM students WHERE id = ?";
 
         // Try-Catch as always
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
             // Bind params
             stmt.setInt(1, id);
 
@@ -73,6 +84,7 @@ public class DatabaseManager {
                 return new Student(rs.getInt("id"), rs.getString("name"), rs.getString("lastName"));
             }
         } catch (SQLException e) {
+
             // Catch if needed
             e.printStackTrace();
         }
@@ -83,11 +95,13 @@ public class DatabaseManager {
 
     // U Stand for Update so, here's it
     public void updateStudent(Student student) {
+
         // Query
         String query = "UPDATE students SET name = ?, lastName = ? WHERE id = ?";
 
         // Try-Catch ofc
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
             // Bind params
             stmt.setString(1, student.getName());
             stmt.setString(2, student.getLastName());
@@ -96,6 +110,7 @@ public class DatabaseManager {
             // Execute the query rq
             stmt.executeUpdate();
         } catch (SQLException e) {
+
             // Catch if needed
             e.printStackTrace();
         }
@@ -103,17 +118,20 @@ public class DatabaseManager {
 
     // Last one, D stands for Delete
     public void deleteStudent(int id) {
+
         // Query string
         String query = "DELETE FROM students WHERE id = ?";
 
         // Pim, pam, Try-Catch
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
             // Bind params
             stmt.setInt(1, id);
 
             // Execute the query
             stmt.executeUpdate();
         } catch (SQLException e) {
+
             // Catch if needed again...
             e.printStackTrace();
         }

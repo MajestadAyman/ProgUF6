@@ -1,6 +1,5 @@
 package main.java.com.example.database.models;
 
-
 public class Student {
     private int id;
     private String name;
@@ -12,7 +11,6 @@ public class Student {
         this.lastName = lastName;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -35,14 +33,5 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 }

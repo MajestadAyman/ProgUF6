@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "com.example.database.Main",
+            "classPaths": [
+                "lib/postgresql-42.7.3.jar"
+            ]
+        }
+    ]
+}
