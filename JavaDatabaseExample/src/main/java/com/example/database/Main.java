@@ -1,30 +1,28 @@
 package main.java.com.example.database;
 
+import com.example.database.models.Student;
+
 public class Main {
     public static void main(String[] args) {
         DatabaseManager dbManager = new DatabaseManager();
-        dbManager.connect();
 
-
-        // Crear un nou estudiant
-        Student student = new Student(1, "Joan", "Garcia");
+        // Add a student
+        Student student = new Student(1, "John", "Doe");
         dbManager.addStudent(student);
 
-
-        // Recuperar estudiant
+        // Get a student
         Student retrievedStudent = dbManager.getStudent(1);
         System.out.println(retrievedStudent);
 
-
-        // Actualitzar estudiant
-        student.setLastName("Martínez");
+        // Update a student
+        student.setName("Jane");
+        student.setLastName("Doe");
         dbManager.updateStudent(student);
 
-
-        // Eliminar estudiant
+        // Delete a student
         dbManager.deleteStudent(1);
 
-
+        // Disconnect from the database
         dbManager.disconnect();
     }
 }
