@@ -1,6 +1,6 @@
 package main.java.com.example.database;
 
-import com.example.database.models.Student;
+import main.java.com.example.database.models.Student;
 
 public class Main {
     public static void main(String[] args) {
